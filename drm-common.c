@@ -181,8 +181,11 @@ static int find_drm_device(drmModeRes **resources)
 		printf("drmGetDevices2 failed: %s\n", strerror(-num_devices));
 		return -1;
 	}
+        else {
+                printf("Number of drm device: %d \n", num_devices);
+        }
 
-	for (int i = 0; i < num_devices; i++) {
+	for (int i = num_devices-1; i !=0; i--) {
 		drmDevicePtr device = devices[i];
 		int ret;
 
@@ -219,7 +222,8 @@ int init_drm(struct drm *drm, const char *device, const char *mode_str, unsigned
 		drm->fd = open(device, O_RDWR);
 		ret = get_resources(drm->fd, &resources);
 		if (ret < 0 && errno == EOPNOTSUPP)
-			printf("%s does not look like a modeset device\n", device);
+			printf("%s (fd=%d) does not look like a modeset device\n",
+                                device, drm->fd);
 	} else {
 		drm->fd = find_drm_device(&resources);
 	}

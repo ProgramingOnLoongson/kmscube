@@ -47,10 +47,9 @@ const struct gbm * init_gbm(int drm_fd, int w, int h, uint32_t format, uint64_t 
 	gbm.surface = NULL;
 
 	if (gbm_surface_create_with_modifiers) {
-		gbm.surface = gbm_surface_create_with_modifiers(gbm.dev, w, h,
-								gbm.format,
-								&modifier, 1);
-
+                printf(" Creating gbm surface ... \n");
+		gbm.surface = gbm_surface_create_with_modifiers(
+                        gbm.dev, w, h, gbm.format, &modifier, 1 );
 	}
 
 	if (!gbm.surface) {
@@ -63,6 +62,10 @@ const struct gbm * init_gbm(int drm_fd, int w, int h, uint32_t format, uint64_t 
 						GBM_BO_USE_SCANOUT | GBM_BO_USE_RENDERING);
 
 	}
+        else {
+		printf(" Create gbm surface succeed. \n");
+        }
+
 
 	if (!gbm.surface) {
 		printf("failed to create gbm surface\n");

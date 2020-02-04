@@ -171,6 +171,9 @@ int main(int argc, char *argv[])
 		printf("failed to initialize %s DRM\n", atomic ? "atomic" : "legacy");
 		return -1;
 	}
+        else {
+                printf("Initialize DRM successful!, drm->fd=%d \n", drm->fd);
+        }
 
 	gbm = init_gbm(drm->fd, drm->mode->hdisplay, drm->mode->vdisplay,
 			format, modifier);
@@ -178,6 +181,10 @@ int main(int argc, char *argv[])
 		printf("failed to initialize GBM\n");
 		return -1;
 	}
+        else {
+                printf(" GBM backend: %s\n", 
+                        gbm_device_get_backend_name(gbm->dev) );
+        }
 
 	if (mode == SMOOTH)
 		egl = init_cube_smooth(gbm, samples);
