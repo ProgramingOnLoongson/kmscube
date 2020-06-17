@@ -163,17 +163,23 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	if (atomic)
-		drm = init_drm_atomic(device, mode_str, vrefresh);
-	else
-		drm = init_drm_legacy(device, mode_str, vrefresh);
-	if (!drm) {
-		printf("failed to initialize %s DRM\n", atomic ? "atomic" : "legacy");
-		return -1;
-	}
-        else {
-                printf("Initialize DRM successful!, drm->fd=%d \n", drm->fd);
-        }
+    if (atomic)
+    {
+        drm = init_drm_atomic(device, mode_str, vrefresh);
+    }
+    else
+    {
+        drm = init_drm_legacy(device, mode_str, vrefresh);
+    }
+
+    if (!drm)
+    {
+        printf("failed to initialize %s DRM\n", atomic ? "atomic" : "legacy");
+        return -1;
+    }
+    else {
+        printf("Initialize DRM successful!, drm->fd=%d \n", drm->fd);
+    }
 
 	gbm = init_gbm(drm->fd, drm->mode->hdisplay, drm->mode->vdisplay,
 			format, modifier);
